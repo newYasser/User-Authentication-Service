@@ -1,6 +1,7 @@
 package com.user_authentication_service.controller;
 
 import com.user_authentication_service.dto.OTPRequest;
+import com.user_authentication_service.dto.OTPValidationRequest;
 import com.user_authentication_service.dto.Response;
 import com.user_authentication_service.service.impl.OTPService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("${prefix_api}otp")
+@RequestMapping("${api_prefix}otp")
 public class OTPController {
 
     @Autowired
@@ -20,6 +21,11 @@ public class OTPController {
     @PostMapping("/send")
     public ResponseEntity<Response> sendOTP(@RequestBody OTPRequest request){
         return otpService.sendOTP(request);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Response> validOTP(@RequestBody OTPValidationRequest request){
+        return otpService.validOtp(request);
     }
 
 }

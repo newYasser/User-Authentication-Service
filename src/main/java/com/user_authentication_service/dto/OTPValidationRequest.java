@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class Response {
-    private int statusCode;
-    private String responseMessage;
-    private UserInfo userInfo;
-    private OTPResponse otpResponse;
+public class OTPValidationRequest {
+    private String otp;
+    private String email;
+
 }

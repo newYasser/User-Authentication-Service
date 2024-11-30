@@ -27,8 +27,14 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->
-                        auth.requestMatchers(HttpMethod.POST,"${prefix_api}auth/signup")
-                                .permitAll().anyRequest().authenticated());
+
+                        auth
+                                .requestMatchers(HttpMethod.POST,"${api_prefix}auth/signup").permitAll()
+                                .requestMatchers(HttpMethod.POST,"${api_prefix}otp/**").permitAll()
+                                .requestMatchers("/**").permitAll()
+                                .anyRequest().authenticated()
+
+                );
         return http.build();
     }
 }
