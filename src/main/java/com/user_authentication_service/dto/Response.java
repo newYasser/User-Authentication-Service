@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 public class Response {
     private int statusCode;
     private String responseMessage;
-    private UserInfo userInfo;
-    private OTPResponse otpResponse;
+    private Object data;
 }

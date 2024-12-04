@@ -7,6 +7,7 @@ import com.user_authentication_service.dto.UserInfo;
 import com.user_authentication_service.entity.User;
 import com.user_authentication_service.repository.UserRepository;
 import com.user_authentication_service.service.UserService;
+import com.user_authentication_service.utils.ResponseUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final int BAD_REQUEST_STATUS_NUMBER = 400;
-    private final int OK_REQUEST_STATUS_NUMBER = 200;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,10 +30,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> signup(Request request) {
 
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
-            return ResponseEntity.badRequest().body(Response.builder()
-                    .statusCode(BAD_REQUEST_STATUS_NUMBER)
-                    .responseMessage("This user is already signed up")
-                    .build());
+            return ResponseUtils.buildErrorResponse("This user is already signed up",BAD_REQUEST_STATUS_NUMBER);
         }
 
         User user =  userRepository.save(User.builder()
@@ -43,11 +40,9 @@ public class UserServiceImpl implements UserService {
                 .lastName(request.getLastName())
                 .build());
 
-        return ResponseEntity.ok().body(Response.builder()
-                .statusCode(OK_REQUEST_STATUS_NUMBER)
-                .responseMessage("User signed up successfully")
-                .userInfo(userModelMapper.map(user, UserInfo.class))
-                .build());
+       return ResponseUtils.buildSuccessResponse("User signed up successfully",
+               userModelMapper.map(user, UserInfo.class));
+
     }
 
     @Override
